@@ -1,13 +1,12 @@
-import logging
 import json
+import logging
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy.orm import Session, joinedload
 
-from src import models
 from src.ai.gemini_service import make_decision
 from src.auth import create_access_token, hash_password, verify_password
-from src.database import Base, engine, get_db
+from src.database import Base, SessionLocal, engine, get_db
 from src.dependencies import get_current_user
 from src.models import Decision, Ticket, User
 from src.schemas import (
@@ -23,6 +22,38 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 Base.metadata.create_all(bind=engine)
+
+
+def create_demo_user():
+    db = SessionLocal()
+
+    try:
+        demo_email = "demo@maxsorlabs.com"
+        demo_password = "MaxsorLabsDemo123!"
+
+        existing_user = (
+            db.query(User)
+            .filter(User.email == demo_email)
+            .first()
+        )
+
+        if existing_user is None:
+            demo_user = User(
+                email=demo_email,
+                password_hash=hash_password(demo_password),
+            )
+
+            db.add(demo_user)
+            db.commit()
+
+            logger.info("Demo user created: %s", demo_email)
+
+    finally:
+        db.close()
+
+
+create_demo_user()
+
 
 app = FastAPI(
     title="MaxsorLabs AI Decision Assistant",
@@ -97,9 +128,14 @@ def login(
 
     token = create_access_token(user.id)
 
-    logger.info("Successful login: user_id=%s", user.id)
+    logger.info(
+        "Successful login: user_id=%s",
+        user.id,
+    )
 
-    return TokenResponse(access_token=token)
+    return TokenResponse(
+        access_token=token,
+    )
 
 
 @app.get("/me", response_model=UserResponse)

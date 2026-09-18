@@ -4,6 +4,15 @@ A minimal end-to-end AI decision system for customer-support ticket triage.
 
 The application combines **FastAPI, JWT authentication, SQLite, local RAG, Gemini, and Streamlit** to turn a customer-support ticket into a structured, evidence-backed policy decision.
 
+## Demo Login
+
+For quick testing, use the following demo account:
+
+**Email:** `demo@maxsorlabs.com`  
+**Password:** `MaxsorLabsDemo123!`
+
+You can also create a new account using the Register option.
+
 ---
 
 ## Overview
