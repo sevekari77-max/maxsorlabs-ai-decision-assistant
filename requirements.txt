@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+streamlit
+sqlalchemy
+pydantic
+pydantic-settings
+PyJWT
+pwdlib[argon2]
+python-multipart
+httpx
+pytest
+numpy
+sentence-transformers
+google-genai
+email-validator

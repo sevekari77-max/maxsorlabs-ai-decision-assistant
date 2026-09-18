@@ -1,0 +1,19 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local database
+data/*.db
+*.db
+
+# Generated RAG embeddings
+embeddings/*.npy
+embeddings/*.json
+
+.streamlit/secrets.toml
+
+.idea/
+.vscode/
+.DS_Store
